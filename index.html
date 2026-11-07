@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Disk Água Ponto Certo | Vendedor</title>
+<style>
+:root{--blue:#0878d1;--navy:#12314b;--bg:#f3f7fb;--green:#15945a;--muted:#64748b}
+*{box-sizing:border-box}body{margin:0;font:15px system-ui,Arial;background:var(--bg);color:#172b3a}
+header{background:linear-gradient(120deg,#075da8,#1197e8);color:white;padding:22px max(18px,calc((100% - 1050px)/2))}
+header h1{margin:0;font-size:23px}header p{margin:5px 0 0;opacity:.9}
+main{max-width:1050px;margin:20px auto;padding:0 14px}.tabs{display:flex;gap:8px;overflow:auto;margin-bottom:16px}
+button,.tab{border:0;border-radius:10px;padding:11px 14px;background:#e3edf6;color:#17415f;font-weight:650;cursor:pointer;white-space:nowrap}
+button.primary{background:var(--blue);color:white}.tab.active{background:var(--navy);color:white}
+.panel{background:white;border-radius:16px;padding:18px;box-shadow:0 4px 18px #153b5c0d;margin-bottom:16px}
+h2{font-size:19px;margin:0 0 14px}.muted{color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.metric{background:#f2f7fc;padding:15px;border-radius:12px}.metric strong{display:block;font-size:25px;color:var(--navy)}
+label{display:block;font-weight:650;margin:10px 0 5px}input,select,textarea{width:100%;padding:12px;border:1px solid #cbd8e4;border-radius:9px;font:inherit;background:white}
+.formgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:8px 14px}.full{grid-column:1/-1}
+table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:10px 8px;border-bottom:1px solid #e6edf3;font-size:14px}
+.pill{display:inline-block;padding:4px 8px;border-radius:20px;background:#e7f3ff;color:#075da8;font-size:12px;font-weight:700}
+.hidden{display:none}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.small{font-size:13px}
+@media(max-width:560px){header h1{font-size:20px}td,th{font-size:12px;padding:8px 4px}}
+</style></head>
+<body>
+<header><h1>💧 Disk Água Ponto Certo</h1><p>Portal do vendedor comissionado · Porto–PI</p></header>
+<main>
+<div class="tabs">
+<button class="tab active" data-tab="inicio">Início</button><button class="tab" data-tab="nova">Nova venda</button><button class="tab" data-tab="vendas">Minhas vendas</button><button class="tab" data-tab="carteira">Carteira</button><button class="tab" data-tab="setores">Setores</button><button class="tab" data-tab="admin">Administrador</button>
+</div>
+<section id="inicio" class="view">
+<div class="panel"><h2>Olá, Carlos! 👋</h2><p class="muted">Acompanhe suas vendas e comissões em um só lugar.</p><div class="grid">
+<div class="metric"><span class="muted">Vendas registradas</span><strong id="mVendas">2</strong></div>
+<div class="metric"><span class="muted">Unidades vendidas</span><strong id="mUnidades">5</strong></div>
+<div class="metric"><span class="muted">Comissão estimada</span><strong id="mComissao">R$ 10,00</strong></div>
+<div class="metric"><span class="muted">Comissão liberada</span><strong id="mLiberada">R$ 4,00</strong></div>
+</div></div>
+<div class="panel"><h2>Últimas vendas</h2><div id="recentes"></div></div>
+</section>
+<section id="nova" class="view hidden"><div class="panel"><h2>Registrar nova venda</h2><p class="muted small">O vendedor registra o pedido. A distribuidora confirma, separa e entrega.</p>
+<form id="saleForm"><div class="formgrid">
+<div><label>Nome do cliente</label><input id="cliente" required placeholder="Nome completo"></div>
+<div><label>Telefone</label><input id="telefone" required placeholder="(86) 99999-9999"></div>
+<div><label>Endereço de entrega</label><input id="endereco" required placeholder="Rua, número e referência"></div>
+<div><label>Bairro</label><input id="bairro" required placeholder="Bairro"></div>
+<div><label>Produto</label><select id="produto"><option>Galão de água 20L</option><option>Fardo de água</option><option>Galão de água 10L</option></select></div>
+<div><label>Quantidade</label><input id="quantidade" type="number" min="1" value="1" required></div>
+<div><label>Preço unitário (R$)</label><input id="preco" type="number" min="0" step=".01" value="10.00" required></div>
+<div><label>Forma de pagamento</label><select id="pagamento"><option>Pix</option><option>Dinheiro na entrega</option><option>Cartão</option></select></div>
+<div class="full"><label>Observações</label><textarea id="obs" rows="2" placeholder="Informações adicionais"></textarea></div>
+</div><p><b>Total:</b> <span id="total">R$ 10,00</span> · <b>Comissão estimada:</b> <span id="comissao">R$ 2,00</span></p>
+<button class="primary" type="submit">Registrar pedido</button></form></div></section>
+<section id="vendas" class="view hidden"><div class="panel"><h2>Minhas vendas</h2><div id="listaVendas"></div></div></section>
+<section id="carteira" class="view hidden"><div class="panel"><h2>Minha carteira</h2><div class="grid"><div class="metric"><span class="muted">Saldo liberado (simulado)</span><strong id="saldo">R$ 4,00</strong></div><div class="metric"><span class="muted">Pendente</span><strong id="pendente">R$ 6,00</strong></div></div><p class="muted small">Esta é uma demonstração. Não há transferência ou saque real.</p><button id="saque">Simular solicitação de saque Pix</button><div id="saqueMsg" class="small"></div><h2 style="margin-top:20px">Extrato</h2><div id="extrato"></div></div></section>
+<section id="setores" class="view hidden"><div class="panel"><h2>Setores de atuação</h2><p class="muted small">Divisão provisória para demonstração. Bairros e limites precisam ser validados antes de uso oficial.</p><div class="grid">
+<div class="metric"><strong>01 · Azul</strong>Centro</div><div class="metric"><strong>02 · Verde</strong>Alto Bonito</div><div class="metric"><strong>03 · Laranja</strong>Rua Nova</div><div class="metric"><strong>04 · Roxo</strong>Região Porto</div><div class="metric"><strong>05 · Vermelho</strong>Demais regiões urbanas</div></div></div></section>
+<section id="admin" class="view hidden"><div class="panel"><h2>Painel do administrador</h2><p class="muted small">Área demonstrativa, sem autenticação real.</p><div id="filaAdmin"></div></div></section>
+</main>
+<script>
+const $=id=>document.getElementById(id), money=n=>n.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+let orders=JSON.parse(localStorage.getItem('pc_orders')||'null')||[
+{id:1,cliente:'Maria Silva',bairro:'Centro',produto:'Galão de água 20L',q:2,total:20,com:4,status:'Entregue',pag:'Pix',liberada:true},
+{id:2,cliente:'João Santos',bairro:'Alto Bonito',produto:'Galão de água 20L',q:3,total:30,com:6,status:'Recebido',pag:'Dinheiro na entrega',liberada:false}
+];
+function save(){localStorage.setItem('pc_orders',JSON.stringify(orders));render()}
+function tab(name){document.querySelectorAll('.view').forEach(x=>x.classList.add('hidden'));$(name).classList.remove('hidden');document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.tab===name));render()}
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>tab(b.dataset.tab));
+function render(){let total=orders.reduce((s,o)=>s+o.com,0),released=orders.filter(o=>o.liberada).reduce((s,o)=>s+o.com,0);
+$('mVendas').textContent=orders.length;$('mUnidades').textContent=orders.reduce((s,o)=>s+o.q,0);$('mComissao').textContent=money(total);$('mLiberada').textContent=money(released);$('saldo').textContent=money(released);$('pendente').textContent=money(total-released);
+let rows=orders.slice().reverse().map(o=>`<tr><td>#${o.id}</td><td>${o.cliente}</td><td>${o.q}</td><td>${money(o.total)}</td><td>${o.status}</td><td>${money(o.com)}</td></tr>`).join('');
+let table=`<div style="overflow:auto"><table><tr><th>Pedido</th><th>Cliente</th><th>Qtd.</th><th>Total</th><th>Status</th><th>Comissão</th></tr>${rows||'<tr><td colspan="6">Nenhuma venda.</td></tr>'}</table></div>`;
+$('listaVendas').innerHTML=table;$('recentes').innerHTML=table;
+$('extrato').innerHTML=orders.map(o=>`<p>Pedido #${o.id} · ${o.cliente} · ${money(o.com)} · ${o.liberada?'Liberada':'Pendente'}</p>`).join('');
+$('filaAdmin').innerHTML=orders.slice().reverse().map(o=>`<div class="panel"><b>Pedido #${o.id} — ${o.cliente}</b><p>${o.q} × ${o.produto} · ${money(o.total)} · ${o.pag}</p><p>Status: <span class="pill">${o.status}</span> · Comissão: ${o.liberada?'Liberada':'Pendente'}</p><div class="actions">${['Aceito','Em separação','Saiu para entrega','Entregue','Cancelado'].map(s=>`<button onclick="status(${o.id},'${s}')">${s}</button>`).join('')}</div></div>`).join('');
+}
+window.status=(id,s)=>{let o=orders.find(x=>x.id===id);if(!o)return;o.status=s;if(s==='Entregue'&&(o.pag!=='Dinheiro na entrega'||confirm('Confirma que o pagamento em dinheiro foi recebido?')))o.liberada=true;if(s==='Cancelado')o.liberada=false;save()};
+$('quantidade').oninput=$('preco').oninput=()=>{let q=+$('quantidade').value||0,p=+$('preco').value||0;$('total').textContent=money(q*p);$('comissao').textContent=money(q*2)};
+$('saleForm').onsubmit=e=>{e.preventDefault();let q=+$('quantidade').value,p=+$('preco').value;orders.push({id:Math.max(0,...orders.map(o=>o.id))+1,cliente:$('cliente').value,bairro:$('bairro').value,produto:$('produto').value,q,total:q*p,com:q*2,status:'Recebido',pag:$('pagamento').value,liberada:false});e.target.reset();$('quantidade').value=1;$('preco').value='10.00';$('total').textContent=money(10);$('comissao').textContent=money(2);save();tab('vendas');alert('Pedido registrado nesta demonstração.')};
+$('saque').onclick=()=>{$('saqueMsg').textContent='Solicitação de saque simulada. Nenhum valor foi transferido.'};
+render();
+</script></body></html>
